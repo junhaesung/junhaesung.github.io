@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Haeseong Jeon"><title>레거시 코드 활용 전략 요약 (1) · 과제요정</title><meta name="description" content="레거시 코드 활용 전략 1~8장 요약한 내용입니다. 
+출처마이클 C. 패더스. (2008). 레거시 코드 활용 전략(이우영, 고재한 역). 서울:에이콘출판.
+
+서문레거시 코드는 테스트 루틴이 없는 간단한 코드이다. 
+1. 소프트웨어 변경리팩토링동작은 변경시키지 않고 설"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">과제요정</a></h3></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">Home</a></li><li><a href="/about">Sobre</a></li><li><a href="/archives">Arquivo</a></li><li><a href="/links">Links</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>레거시 코드 활용 전략 요약 (1)</a></h3></div><div class="post-content"><p>레거시 코드 활용 전략 1~8장 요약한 내용입니다. </p>
+<h4 id="출처"><a href="#출처" class="headerlink" title="출처"></a>출처</h4><p><a href="http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&amp;mallGb=KOR&amp;barcode=9788989975922&amp;orderClick=LAH&amp;Kc=" target="_blank" rel="noopener">마이클 C. 패더스. (2008). 레거시 코드 활용 전략(이우영, 고재한 역). 서울:에이콘출판.</a></p>
+<hr>
+<h2 id="서문"><a href="#서문" class="headerlink" title="서문"></a>서문</h2><p>레거시 코드는 테스트 루틴이 없는 간단한 코드이다. </p>
+<h2 id="1-소프트웨어-변경"><a href="#1-소프트웨어-변경" class="headerlink" title="1. 소프트웨어 변경"></a>1. 소프트웨어 변경</h2><h3 id="리팩토링"><a href="#리팩토링" class="headerlink" title="리팩토링"></a>리팩토링</h3><p>동작은 변경시키지 않고 설계만 개선하는 행위를 리팩토링(refactoring)이라고 한다. 기존 동작이 변하지 않고 전 과정을 검증하는 데 조치를 조금만 취해도 된다는 것을 확신하고자 테스트 루틴을 작성한다고 가정하자. 이 경우 소프트웨어의 동작을 변경시키지 않고도 쉽게 유지보수가 가능하도록 만들 수 있다. </p>
+<h3 id="위험한-변경"><a href="#위험한-변경" class="headerlink" title="위험한 변경"></a>위험한 변경</h3><p>동작을 보전하는 일은 매우 어려운 문제이며, 변경시키고 기능을 보전하는 일은 상당한 위험을 수반한다. </p>
+<ol>
+<li>어떠한 변경을 가해야 하는가?</li>
+<li>그러한 변경을 올바르게 했는지 확인하는 방법은 무엇인가?</li>
+<li>어떤 조건을 위반했는지를 알 수 있는 방법은 무엇인가?</li>
+</ol>
+<h2 id="2-효과적인-피드백-활용"><a href="#2-효과적인-피드백-활용" class="headerlink" title="2. 효과적인 피드백 활용"></a>2. 효과적인 피드백 활용</h2><h3 id="좋은-단위테스트의-특징"><a href="#좋은-단위테스트의-특징" class="headerlink" title="좋은 단위테스트의 특징"></a>좋은 단위테스트의 특징</h3><ol>
+<li>빨리 실행된다. </li>
+<li>문제를 지역화시키는 데 도움이 된다. </li>
+</ol>
+<h3 id="다음은-단위테스트가-아니다"><a href="#다음은-단위테스트가-아니다" class="headerlink" title="다음은 단위테스트가 아니다."></a>다음은 단위테스트가 아니다.</h3><ol>
+<li>해당 테스트가 데이터베이스와 통신한다.</li>
+<li>네트워크를 통해 통신한다. </li>
+<li>파일시스템을 건드린다. </li>
+<li>실행하기 위해 구성 파일 편집처럼 환경을 바꾸는 작업을 해야 한다. </li>
+</ol>
+<h3 id="레거시-코드-변경-알고리즘"><a href="#레거시-코드-변경-알고리즘" class="headerlink" title="레거시 코드 변경 알고리즘"></a>레거시 코드 변경 알고리즘</h3><ol>
+<li>변경 지점을 식별한다. </li>
+<li>테스트 지점을 찾는다. </li>
+<li>의존관계를 깬다. </li>
+<li>테스트 루틴을 작성한다.</li>
+<li>변경시키고 리팩토링한다. </li>
+</ol>
+<h2 id="3-감지와-분리"><a href="#3-감지와-분리" class="headerlink" title="3. 감지와 분리"></a>3. 감지와 분리</h2><h3 id="선결조건"><a href="#선결조건" class="headerlink" title="선결조건"></a>선결조건</h3><p>일반적으로 순서대로 테스트하고자 할 때 감지와 분리를 위해 의존관계를 꺠야 한다. </p>
+<ol>
+<li>감지 : 언제 코드가 계산하는 값들에 접근할 수 없는지를 감지하기 위해 의존관계를 제거한다. </li>
+<li>분리 : 언제 코드를 테스트 하니스에 넣어 실행할 수 없게 되는지를 구분하기 위해 의존관계를 제거한다. </li>
+</ol>
+<h3 id="가짜-객체"><a href="#가짜-객체" class="headerlink" title="가짜 객체"></a>가짜 객체</h3><p>가짜 객체(fake object)는 객체를 테스트할 때, 각자가 구현한 클래스의 협력자들을 흉내내는 객체를 말한다. </p>
+<h3 id="실제-테스트를-지원하는-가짜-객체"><a href="#실제-테스트를-지원하는-가짜-객체" class="headerlink" title="실제 테스트를 지원하는 가짜 객체"></a>실제 테스트를 지원하는 가짜 객체</h3><p>테스트 루틴을 작성할 때는 흔히 ‘분할 정복(divide and conquer)’을 사용해야 한다. … 오류를 지역화(localize)할 수 있다면 시간을 크게 절약할 수 있다. </p>
+<h3 id="모조-객체"><a href="#모조-객체" class="headerlink" title="모조 객체"></a>모조 객체</h3><p>만일 가짜 객체를 많이 사용해야 하는 경우라면 가짜 객체의 고급형인 모조 객체(Mock Object)를 사용하는 것도 고려해볼만 하다.<br>모도 객체는 어써션(Assertion, 확인 작업)을 내부적으로 수행하는 가짜 객체를 말한다. </p>
+<h2 id="4-봉합-모델"><a href="#4-봉합-모델" class="headerlink" title="4. 봉합 모델"></a>4. 봉합 모델</h2><p>재사용한다는 것은 어려운 일이다. 각 소프트웨어가 독립적으로 있는 것처럼 보이지만 실제로는 서로 미묘하게 얽혀있는 경우가 흔하다.<br>단위테스트를 위해 각 클래스를 끌어내는 경우, 종종 많은 의존관계를 깨야한다. </p>
+<h3 id="봉합"><a href="#봉합" class="headerlink" title="봉합"></a>봉합</h3><p>봉합(Seams)은 프로그램 안에서 동작을 변화시킬 수 있는 위치를 말한다. 이 때 동작을 변화시키기 위해 코드를 편집할 필요는 없다. </p>
+<h3 id="봉합의-종류"><a href="#봉합의-종류" class="headerlink" title="봉합의 종류"></a>봉합의 종류</h3><ul>
+<li><p>전처리 봉합</p>
+<ul>
+<li><p>조건부 컴파일 코드를 포함시키면 디버깅하기 쉽고 여러 플랫폼을 지원할 수 있도록 만들 수 있다. </p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">m_pRtg-&gt;Adj(<span class="number">2.0</span>);</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> DEBUG</span></span><br><span class="line">ifndef WINDOWS</span><br><span class="line">    &#123; FILE *fp = fopen(TGLOGNAME, <span class="string">"w"</span>);</span><br><span class="line">    <span class="keyword">if</span> (fp) &#123; <span class="built_in">fprintf</span>(fp, <span class="string">"%s"</span>, m_pRtg-&gt;pszState); fclose(fp); &#125;&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">m_pTSRTable-&gt;p_nFlush |= GF_FLOT;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>#define</code>으로 정의되는 매크로는 여러 가지 좋은 기능을 지니는데, 실제적으로는 단순히 텍스트 치환만 수행한다. </p>
+</li>
+<li>가능 지점 : 모든 봉합은 하나의 가능 지점(Enabling Point)을 가진다. 이 지점은 하나의 동작이나 다른 동작을 사용하기 위한 결정을 내리는 지점이다. </li>
+</ul>
+</li>
+<li>연결 봉합<ul>
+<li>연결 봉합을 사용할 떄는 테스트 환경과 제작 환경에 확연한 차이가 있도록 구성한다. </li>
+<li>연결 봉합을 사용하는 이유는 분리(separation), 감지를 사용하는 경우 등이 있다. </li>
+</ul>
+</li>
+<li>객체 봉합<ul>
+<li>객체지향 언어에서 사용할 수 있는 가장 유용한 봉합이다. </li>
+<li>객체지향 프로그램의 호출에서 가장 기본적으로 알아야할 사항은 실제로 어떤 메서드가 실행될지를 정의하지 않는다는 것이다. </li>
+</ul>
+</li>
+</ul>
+<h2 id="5-레거시-코드를-위한-도구"><a href="#5-레거시-코드를-위한-도구" class="headerlink" title="5. 레거시 코드를 위한 도구"></a>5. 레거시 코드를 위한 도구</h2><h3 id="리팩토링-1"><a href="#리팩토링-1" class="headerlink" title="리팩토링"></a>리팩토링</h3><p>소프트웨어의 내부 구조에 가해지는 변화로 소프트웨어에 존재하는 동작을 변경하지 않으면서 이해하기 쉽고 더 저렴하게 변경할 수 있도록 만드는 변화. </p>
+<h3 id="xUnit"><a href="#xUnit" class="headerlink" title="xUnit"></a>xUnit</h3><ul>
+<li>이것은 프로그래머가 그들이 개발하는 언어로 테스트 루틴을 작성할 수 있도록 해준다. </li>
+<li>모든 테스트는 독립되어 실행된다. </li>
+<li>테스트는 슈트(suite) 단위로 합해지는데 이는 나중에 요구가 있을 때마다 실행되거나 재실행될 수 있도록 하기 위한 조치이다. </li>
+</ul>
+<h2 id="6-고칠건-많고-시간은-없고"><a href="#6-고칠건-많고-시간은-없고" class="headerlink" title="6. 고칠건 많고 시간은 없고"></a>6. 고칠건 많고 시간은 없고</h2><h3 id="발아-메소드"><a href="#발아-메소드" class="headerlink" title="발아 메소드"></a>발아 메소드</h3><ol>
+<li>어느 부분에 코드 변경이 필요한지 식별한다. </li>
+<li>변경이 한 메소드 안의 한 부분에 있는 단일한 일련의 스테이트먼트라면 관련 작업을 하는 새로운 메소드를 호출하는 코드를 작성한다. 그리고 주석을 표현한다. </li>
+<li>소스 메소드에 어떤 지격 변수들이 필요한 지를 결정하고 호출이 필요한 매개변수를 만든다. </li>
+<li>발아 메소드가 소스 메소드에 값을 반환해야 할지 결정한다. 값을 반환해야 한다면 호출을 변경시켜 반환된 값이 변수에 할당되도록 한다. </li>
+<li>테스트 주도 개발 방법을 사용해 발아 메소드를 개발한다. </li>
+<li>호출이 동작하게 만들기 위해 소스 메소드에 있는 주석문을 제공한다. </li>
+</ol>
+<h3 id="발아-클래스를-만드는-순서"><a href="#발아-클래스를-만드는-순서" class="headerlink" title="발아 클래스를 만드는 순서"></a>발아 클래스를 만드는 순서</h3><ol>
+<li>어느 부분에 코드 변경을 가해야 하는지 식별한다. </li>
+<li>변경이 한 메소드 안의 한 부분에 있는 단일한 일련의 스테이트먼트(statement)라면, 그 작업을 하는 클래스를 위한 적당한 이름을 생각한다. 그리고 그 클래스 안에 있는 메소드를 호출한다. 그 메소드는 당신이 해야 할 작업을 수행할 것이다. 그리고 주석을 표시한다. </li>
+<li>소스 메소드에 어떤 지역 변수들이 필요한지 결정하고 클래스의 생성자를 호출하는 데 필요한 매개변수를 만든다. </li>
+<li>발아 클래스가 소스 메소드에 값을 반환해야 할지 결정한다. 값을 반환해야 한다면 호출을 변경시켜 반환된 값이 변수에 할당되도록 한다.</li>
+<li>우선 발아 클래스를 개발한다. </li>
+<li>객체 생성과 호출이 동작하도록 만들기 위해 소스 메소드에 있는 주석문을 지운다. </li>
+</ol>
+<h3 id="포장-메소드"><a href="#포장-메소드" class="headerlink" title="포장 메소드"></a>포장 메소드</h3><h2 id="7-코드-하나-바꾸는-데-왜-이리-오래-걸리지"><a href="#7-코드-하나-바꾸는-데-왜-이리-오래-걸리지" class="headerlink" title="7. 코드 하나 바꾸는 데 왜 이리 오래 걸리지?"></a>7. 코드 하나 바꾸는 데 왜 이리 오래 걸리지?</h2><p>작고, 적절히 명명되고, 또한 이해하기 쉬운 크기로 분리된 시스템은 작업을 빨리 진행할 수 있도록 하는 데 도움을 준다. </p>
+<h3 id="의존관계-깨기"><a href="#의존관계-깨기" class="headerlink" title="의존관계 깨기"></a>의존관계 깨기</h3><p>의존관계를 꺠기 위해 시스템에 더 많은 인터페이스와 패키지를 도입한다면 전체 시스템을 재빌드하는 데 걸리는 시간은 조금 늘어날 것이고 컴파일해야 하는 파일 수도 증가할 것이다. 하지만 메이크(make)를 위한 평균 시간과 재컴파일에 필요한 빌드 시간은 크게 줄어들 것이다. </p>
+<h2 id="8-특징-어떻게-추가할까"><a href="#8-특징-어떻게-추가할까" class="headerlink" title="8. 특징, 어떻게 추가할까?"></a>8. 특징, 어떻게 추가할까?</h2><h3 id="테스트-주도-개발-TDD-Test-Driven-Development"><a href="#테스트-주도-개발-TDD-Test-Driven-Development" class="headerlink" title="테스트 주도 개발 (TDD, Test-Driven Development)"></a>테스트 주도 개발 (TDD, Test-Driven Development)</h3><ol>
+<li>실패 테스트 케이스를 작성한다. </li>
+<li>컴파일되게 만든다. </li>
+<li>테스트에 통과(pass)하도록 만든다. </li>
+<li>중복을 제거한다. </li>
+<li>반복한다. </li>
+</ol>
+<h3 id="TDD와-레거시-코드"><a href="#TDD와-레거시-코드" class="headerlink" title="TDD와 레거시 코드"></a>TDD와 레거시 코드</h3><p>한번에 한 작업만 집중하도록 해주는 것은 TDD의 가장 중요한 역할 중 하나이다. TDD를 적용하면 코드 작성이나 리팩토링 과정에서도 두 작업을 함께 하는 경우는 결코 일어나지 않을 것이다.<br>레거시 코드에 있어서 분리는 특히 중요하다. 분리를 통해 새로운 코드를 작성할 때 다른 새로운 코드와의 독립성을 유지할 수 있기 때문이다.<br>새로운 코드를 작성하고 나면 리팩토링해서 새로운 코드와 이전 코드 사이에 있는 중복을 제거할 수 있다. </p>
+<h3 id="확장"><a href="#확장" class="headerlink" title="확장"></a>확장</h3><ol>
+<li>테스트하면서 변경시키고자 하는 클래스를 찾는다. </li>
+<li>실패 테스트 케이스를 작성한다. </li>
+<li>컴파일되게 만든다. </li>
+<li>테스트에 통과하도록 만든다(이 과정을 거칠 때 되도록이면 기존 코드를 변경시키지 않으려고 노력해야 한다).</li>
+<li>중복을 제거한다.</li>
+<li>반복한다. </li>
+</ol>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-02-05</span><i class="fa fa-tag"></i><a class="tag" href="/tags/book/" title="book">book </a><a class="tag" href="/tags/refactoring/" title="refactoring">refactoring </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,https://junhaesung.github.io/2018/02/05/180205-summary-9788989975922/,과제요정,레거시 코드 활용 전략 요약 (1),;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2018/02/05/180205-summary-9788960773431/" title="토비의 스프링 읽기 (1)">Post Anterior</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2018/02/05/180205-summary-9788966261635/" title="RESTful WEB API 요약 (1)">Próximo post</a></li></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

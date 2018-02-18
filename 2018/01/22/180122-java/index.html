@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Haeseong Jeon"><title>자바 어노테이션 (Annotation) · 과제요정</title><meta name="description" content="스프링과 자바를 사용하면서 생소하게 느꼈던 문법인 어노테이션에 대해서 책을 보고 정리했습니다. 어노테이션을 직접 선언하고 사용하는 예제는 조만간 추가할 예정입니다. 
+
+어노테이션 (Annotation)어노테이션을 클래스나 메소드 등의 선언시에 @를 사용하는 것을 말합니"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">과제요정</a></h3></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">Home</a></li><li><a href="/about">Sobre</a></li><li><a href="/archives">Arquivo</a></li><li><a href="/links">Links</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>자바 어노테이션 (Annotation)</a></h3></div><div class="post-content"><p>스프링과 자바를 사용하면서 생소하게 느꼈던 문법인 어노테이션에 대해서 책을 보고 정리했습니다. 어노테이션을 직접 선언하고 사용하는 예제는 조만간 추가할 예정입니다. </p>
+<hr>
+<h1 id="어노테이션-Annotation"><a href="#어노테이션-Annotation" class="headerlink" title="어노테이션 (Annotation)"></a>어노테이션 (Annotation)</h1><p>어노테이션을 클래스나 메소드 등의 선언시에 @를 사용하는 것을 말합니다. </p>
+<h2 id="역할"><a href="#역할" class="headerlink" title="역할"></a>역할</h2><ul>
+<li>컴파일러에게 정보를 알려줍니다. </li>
+<li>컴파일할 때와 설치 시의 작업을 지정합니다. </li>
+<li>실행할 때 별도의 처리가 필요한 경우 사용합니다. </li>
+</ul>
+<h2 id="종류"><a href="#종류" class="headerlink" title="종류"></a>종류</h2><p>자바 언어에는 사용하기 위해서 정해져 있는 어노테이션은 3개가 있고, 어노테이션을 선언하기 위한 메타 어노테이션은 4개가 있습니다. </p>
+<h3 id="Override"><a href="#Override" class="headerlink" title="@Override"></a>@Override</h3><p>@Override 어노테이션을 추가해주면 어떤 메소드가 부모 클래스에 있는 것을 Override 했는지 쉽게 확인이 가능합니다. 또한, 해당 메소드가 Parent 클래스에 존재하지 않는 경우 에러를 발생시킴으로써, 제대로 Override 했는지 확인할 수 있는 수단이 됩니다. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnnotationChild</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"AnnotationChild"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Deprecated"><a href="#Deprecated" class="headerlink" title="@Deprecated"></a>@Deprecated</h3><p>@Deprecated라는 어노테이션은 더 이상 사용하지 않는 클래스나 메소드를 선언하는 데 사용됩니다. 하위호환성을 위해서 Deprecated로 선언하는 것은 꼭 필요합니다. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnnotationChild</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">noMoreUse</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnotationSample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">useDeprecated</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        AnnotationChild child  = <span class="keyword">new</span> AnnotationChild();</span><br><span class="line">        child.noMoreUse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Note: AnnotationSampole.java uses or overrides a deprecated API. </span><br><span class="line">Note: Recompile with -Xlint:deprecation for details.</span><br></pre></td></tr></table></figure>
+<h3 id="SuppressWarnings"><a href="#SuppressWarnings" class="headerlink" title="@SuppressWarnings"></a>@SuppressWarnings</h3><p>@SuppressWarnings라는 어노테이션은 컴파일러에게 경고를 무시하도록 하는 데 사용됩니다.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnotationSample</span> </span>&#123;</span><br><span class="line">    <span class="meta">@SupressWarnings</span>(<span class="string">"deprecation"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">useDeprecated</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        AnnotationChild child = <span class="keyword">new</span> AnnotationChild();</span><br><span class="line">        child.noMoreUse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="메타-어노테이션-Meta-Annotation"><a href="#메타-어노테이션-Meta-Annotation" class="headerlink" title="메타 어노테이션 (Meta Annotation)"></a>메타 어노테이션 (Meta Annotation)</h2><p>메타 어노테이션은 어노테이션을 선언할 때 사용합니다. 다음과 같이 4개가 존재합니다. </p>
+<ul>
+<li>@Target</li>
+<li>@Retention</li>
+<li>@Documented</li>
+<li>@Inherited</li>
+</ul>
+<h3 id="Target"><a href="#Target" class="headerlink" title="@Target"></a>@Target</h3><p>어노테이션을 어떤 것에 적용할지 선언할 때 사용합니다. </p>
+<table>
+<thead>
+<tr>
+<th>요소 타입</th>
+<th>대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONSTRUCTOR</td>
+<td>생성자 선언시</td>
+</tr>
+<tr>
+<td>FIELD</td>
+<td>enum 상수를 포함한 필드(field)값 선언시</td>
+</tr>
+<tr>
+<td>LOCAL_VARIABLE</td>
+<td>지역변수 선언시</td>
+</tr>
+<tr>
+<td>METHOD</td>
+<td>메소드 선언시</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>패키지 선언시</td>
+</tr>
+<tr>
+<td>PARAMETER</td>
+<td>매개 변수 선언시</td>
+</tr>
+<tr>
+<td>TYPE</td>
+<td>클래스, 인터페이스, enum 등 선언시</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Retention"><a href="#Retention" class="headerlink" title="@Retention"></a>@Retention</h3><p>어노테이션 정보가 얼마나 오래 유지되는지를 선언합니다. </p>
+<table>
+<thead>
+<tr>
+<th>타입</th>
+<th>대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SOURCE</td>
+<td>어노테이션 정보가 컴파일 시 사라짐</td>
+</tr>
+<tr>
+<td>CLASS</td>
+<td>클래스 파일에 있는 어노테이션 정보가 컴파일러에 의해서 참조 가능함. 하지만, 가상 머신(Virtual Machine)에서는 사라짐</td>
+</tr>
+<tr>
+<td>RUNTIME</td>
+<td>실행시 어노테이션 정보가 가상 머신에 의해서 참조 가능</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Documented"><a href="#Documented" class="headerlink" title="@Documented"></a>@Documented</h3><p>해당 어노테이션에 대한 정보가 Javadocs(API)문서에 포함된다는 것을 선언합니다. </p>
+<h3 id="Inherited"><a href="#Inherited" class="headerlink" title="@Inherited"></a>@Inherited</h3><p>모든 자식 클래스에서 부모 클래스의 어노테이션을 사용할 수 있다는 것을 선언합니다. </p>
+<hr>
+<h4 id="참고문헌"><a href="#참고문헌" class="headerlink" title="참고문헌"></a>참고문헌</h4><p>이상민. (2013). 자바의 신(김성박, 박재성 감수). 서울: 로드북. </p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-01-22</span><i class="fa fa-tag"></i><a class="tag" href="/tags/java/" title="java">java </a><a class="tag" href="/tags/annotation/" title="annotation">annotation </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,https://junhaesung.github.io/2018/01/22/180122-java/,과제요정,자바 어노테이션 (Annotation),;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2018/02/05/180205-summary-9788966261635/" title="RESTful WEB API 요약 (1)">Post Anterior</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2018/01/21/180121-title/" title="입사 3주차 후기">Próximo post</a></li></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
