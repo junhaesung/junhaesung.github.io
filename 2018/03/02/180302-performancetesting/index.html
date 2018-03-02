@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Haeseong Jeon,seong0428@gmail.com"><title>웹 어플리케이션을 위한 성능 테스트 가이드 - patterns and practices · 과제요정</title><meta name="description" content="웹 어플리케이션을 위한 성능 테스트 가이드 - patterns and practices서문
+Identify the Test Environment
+Identify Performance Acceptance Criteria
+Plan and Design Tests
+Config"><meta name="keywords" content="Java, Spring, Python, Javascript"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">과제요정</a></h3><div class="description"><p>생각하는 대로 살지 않으면 사는 대로 생각하게 된다</p></div></div></div><ul class="social-links"><li><a href="http://facebook.com/haeseong.jeon.7"><i class="fa fa-facebook"></i></a></li><li><a href="http://github.com/junhaesung"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/archives">Archive</a></li><li><a href="/links">Links</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/favicon.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>웹 어플리케이션을 위한 성능 테스트 가이드 - patterns and practices</a></h3></div><div class="post-content"><h1 id="웹-어플리케이션을-위한-성능-테스트-가이드-patterns-and-practices"><a href="#웹-어플리케이션을-위한-성능-테스트-가이드-patterns-and-practices" class="headerlink" title="웹 어플리케이션을 위한 성능 테스트 가이드 - patterns and practices"></a>웹 어플리케이션을 위한 성능 테스트 가이드 - patterns and practices</h1><h2 id="서문"><a href="#서문" class="headerlink" title="서문"></a>서문</h2><ol>
+<li>Identify the Test Environment</li>
+<li>Identify Performance Acceptance Criteria</li>
+<li>Plan and Design Tests</li>
+<li>Configure the Test Environment</li>
+<li>Implement the Test Design</li>
+<li>Execute the Test</li>
+<li>Analyze Results, Report, and Retest</li>
+</ol>
+<h2 id="Part-1-Introduction-to-Performance-Testing"><a href="#Part-1-Introduction-to-Performance-Testing" class="headerlink" title="Part 1: Introduction to Performance Testing"></a>Part 1: Introduction to Performance Testing</h2><h3 id="Chapter-1-Fundamentals-of-Web-Application-Performance-Testing"><a href="#Chapter-1-Fundamentals-of-Web-Application-Performance-Testing" class="headerlink" title="Chapter 1 - Fundamentals of Web Application Performance Testing"></a>Chapter 1 - Fundamentals of Web Application Performance Testing</h3><h4 id="Learn-what-performance-testing-is"><a href="#Learn-what-performance-testing-is" class="headerlink" title="Learn what performance testing is."></a>Learn what performance testing is.</h4><p>성능 테스팅은 일반적으로 시스템에서 병목을 찾거나, 미래의 테스팅 계획을 수립하거나, 성능 튜닝 노력을 지원하거나, 성능의 목표와 필요를 준수하거나, 이해당사자들이 의사결정하는데 도움을 얻기 위해 이루어집니다. </p>
+<h4 id="Learn-the-core-activities-of-performance-testing"><a href="#Learn-the-core-activities-of-performance-testing" class="headerlink" title="Learn the core activities of performance testing."></a>Learn the core activities of performance testing.</h4><p>성능 테스팅의 핵심 활동은 7가지로 이루어집니다. </p>
+<ol>
+<li>Identify Test Environment<br>테스트 환경을 확인합니다. 테스트 환경은 물리적인 테스트 환경 뿐만 아니라 테스트 팀이 사용가능한 자원이나 도구를 포함합니다. 물리적인 테스트 환경은 하드웨어, 소프트웨어, 네트워크 환경 설정 등을 포함합니다. 테스트의 전체 환경에 대해서 전반적으로 잘 이해한다면, 더 효과적으로 테스트 계획을 수립하고, 테스트를 설계할 수 있습니다. 또한 더 일찍 테스트 과제를 확인하는 데 도움이 됩니다. 프로젝트의 생애주기동안, 이 과정은 반드시 주기적으로 반복되어야 합니다. </li>
+<li>Identify Performance Acceptance Criteria<br>성능 수락 기준을 확인합니다. 응답 시간, 처리량, 자원 활용 목표와 제약사항 등을 확인합니다. 일반적으로 유저는 응답 시간에 대해, 비즈니스는 처리량에 대해, 시스템은 자원 활용에 대해서 관심을 가집니다. 프로젝트의 성공을 확인하는 것은 이런 목표와 제약사항에만 머무르지 않습니다. 예를 들면, 여러 환경 설정의 조합에 대해서 성능 테스트를 평가하는 것은 가장 가치있는 성능 특징을 이끌어낼 수 있습니다. </li>
+<li>Plan and Design Tests<br>테스트를 설계하고 계획합니다. 핵심 시나리오를 확인하고, 다양한 유저들의 가변성을 결정합니다. 또한 그 가변성을 묘사하는 방법, 테스트 자료를 정의하는 방법, 정보를 수집할 방법을 결정합니다. </li>
+<li>테스트 환경을 설정합니다.<br>테스트 환경, 도구와 각 전략을 실행하는데 필요한 자원을 준비합니다. 테스트 환경과 자원에 대한 모니터링이 꼭 필요합니다. </li>
+<li>테스트 디자인을 구현합니다.<br>테스트 설계를 기반으로 성능 테스트를 개발합니다. </li>
+<li>테스트를 실행합니다.<br>테스트를 실행하고, 모니터링합니다. 테스트, 테스트 데이터, 모아진 결과를 검증합니다. </li>
+<li>분석하고, 발표하고, 테스트를 반복합니다.<br>테스트 결과를 강화시키고, 공유합니다. 개인적으로, 또한 교차가능팀으로서 데이터를 분석합니다. 남아있는 테스트를 중요도에 따라서 재배열하고, 필요한 것은 재실행합니다. </li>
+</ol>
+<h4 id="Learn-why-performance-testing-matters"><a href="#Learn-why-performance-testing-matters" class="headerlink" title="Learn why performance testing matters."></a>Learn why performance testing matters.</h4><p>상위 레벨에서, 성능 테스트는 비용, 기회비용, 지속성 등과 관련된 방향을 정하는 데 사용됩니다. 성능 테스트를 수행하는 더 구체적인 이유는 다음과 같습니다. </p>
+<h4 id="Learn-about-the-relevance-of-project-context-to-performance-testing"><a href="#Learn-about-the-relevance-of-project-context-to-performance-testing" class="headerlink" title="Learn about the relevance of project context to performance testing."></a>Learn about the relevance of project context to performance testing.</h4><p>성능 테스트 프로젝트가 성공적이기 위해서는, 성능 테스트와 테스트 그 자체에 대한 두 가지 접근이 프로젝트의 여건에 비추어 볼 때 반드시 둘 다 타당해야 합니다. 프로젝트의 문맥에 대한 이해가 부족하다면, 성능 테스트는 테스터의 성능이나 테스트팀이 중요하다고 생각하는 것에만 집중하게 될 것입니다. 또한 진실로 중요한 것들과는 반대로, 흔히 시간을 낭비하고, 불만과 갈등을 겪게 될 것입니다.<br>프로젝트의 환경에는 다음과 같은 것들이 포함됩니다. </p>
+<ul>
+<li>프로젝트의 비전</li>
+<li>성능 테스트의 목표</li>
+<li>성능 성공 기준</li>
+<li>개발 생애 주기</li>
+<li>프로젝트 스케줄</li>
+<li>프로젝트의 비용</li>
+<li>사용가능한 툴과 환경</li>
+<li>테스터와 팀의 스킬셋</li>
+<li>성능 관심의 우선순위</li>
+<li>성능이 나쁜 어플리케이션이 비즈니스에 미치는 영향</li>
+</ul>
+<h4 id="Learn-how-tuning-fits-into-the-performance-testing-cycle"><a href="#Learn-how-tuning-fits-into-the-performance-testing-cycle" class="headerlink" title="Learn how tuning fits into the performance testing cycle."></a>Learn how tuning fits into the performance testing cycle.</h4><h4 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h4><p>성능 테스팅은 시스템의 병목을 찾는것, 미래의 테스팅을 위한 베이스라인을 설정하는 것, 성능 튜닝 노력을 도와주는 것, 성능 목표와 요구 기준을 결정하는 것을 도와줍니다. 성능 테스트를 일찍 도입하는 것은 중요한 가치를 프로젝트에 제공할 것입니다.<br>성능 테스트가 성공적이기 위해서는, 테스팅은 반드시 프로젝트의 환경에 적절해야합니다.<br>성능 분석을 받아들일 수 없다면, 어플리케이션의 성능 수준을 위해서 통상적으로 성능 테스트에서 성능 튜닝으로 관심을 옮기길 원할 것입니다. 또한 미래의 시스템의 성능을 향상시키기위해 투입되는 리소스를 줄이기 위해서도 튜닝에 신경써야 합니다.<br>성능 테스트, 로드 테스트, 부하 테스트는 각각 다른 목적을 가진 성능 테스팅의 하위 카테고리입니다.<br>기준선을 만드는 것은 일반적으로 프로젝트의 효율을 증가시킬 것입니다. </p>
+<h3 id="Chapter-2-Types-of-Performance-Testing"><a href="#Chapter-2-Types-of-Performance-Testing" class="headerlink" title="Chapter 2 - Types of Performance Testing"></a>Chapter 2 - Types of Performance Testing</h3><ul>
+<li>Learn about various types of performance tests.</li>
+<li>Understand the values and benefits associated with each type of performance testing.</li>
+<li>Understand the potential disadvantages of each type of performance testing.<h4 id="Summary-1"><a href="#Summary-1" class="headerlink" title="Summary"></a>Summary</h4>성능 테스팅은 넓고 복잡한 활동입니다. 성능 테스팅은 많은 form을 가질 수 있고, 많은 리스크를 질 수 있으며, 조직에 넓은 관점의 가치를 가져다 줄 수 있습니다.<br>리스크를 줄이거나, 비용을 줄이거나, 주어진 프로젝트의 성능을 테스트하면서 적절한 테스트 과정을 적용하기 위해서 다른 성능 테스트의 종류를 이해하는 것은 중요합니다.<br>여러 종류의 성능 테스트 코스를 적용하기 위해서, 다음의 키 포인트를 평가해야합니다. </li>
+<li>성능 테스트의 목적</li>
+<li>성능 테스트의 환경. 예를 들면, 관여되는 자원, 비용, 성능테스트로 인해 잠재적으로 돌아오는 것. </li>
+</ul>
+<h3 id="Chapter-3-Risks-Addressed-Through-Performance-Testing"><a href="#Chapter-3-Risks-Addressed-Through-Performance-Testing" class="headerlink" title="Chapter 3 - Risks Addressed Through Performance Testing"></a>Chapter 3 - Risks Addressed Through Performance Testing</h3><ul>
+<li>Understand how speed, scalability, and stability are viewed from a performance-testing perspective.</li>
+<li>Learn how performance testing can be used to mitigate risks related to speed, scalability, and stability.</li>
+<li>Learn about the aspects of these risks that performance testing does not adequately address.<h4 id="Summary-2"><a href="#Summary-2" class="headerlink" title="Summary"></a>Summary</h4>거의 모든 어플리케이션과 비즈니스에 관련된 리스크는 성능 테스팅을 통해서 정리된다고 할 수 있다. 리스크는 사용자의 만족과 비즈니스 목표를 만족할 수 있는 어플리케이션의 능력을 포함한다. </li>
+</ul>
+<p>일반적으로, 성능 테스팅의 리스크는 속도, 확장성, 안정성의 종류를 포함한다. 속도는 보통 end-user의 관심이고, 확장성은 비즈니스의 관심이며, 안정성은 기술적인 유지보수의 관심이다. </p>
+<p>프로젝트에 연관된 리스크와 성능 테스팅이 사용되는 곳의 연관된 완화 전략을 확인하는 것은 거의 모든 곳에서 가치있고, 시간을 절약하는 방법으로 관찰된다.  </p>
+<h2 id="Part-2-Exemplar-Performance-Testing-Approaches"><a href="#Part-2-Exemplar-Performance-Testing-Approaches" class="headerlink" title="Part 2: Exemplar Performance Testing Approaches"></a>Part 2: Exemplar Performance Testing Approaches</h2><h3 id="Chapter-4-Web-Application-Performance-Testing-Core-Activities"><a href="#Chapter-4-Web-Application-Performance-Testing-Core-Activities" class="headerlink" title="Chapter 4 - Web Application Performance Testing Core Activities"></a>Chapter 4 - Web Application Performance Testing Core Activities</h3><ul>
+<li>Learn the seven core activities that are integral to the majority of performance-testing projects.</li>
+<li>Understand the seven core activities in sufficient detail to identify how your tasks and processes map to these activities.</li>
+<li>Understand various performance-testing approaches that can be built around the core activities.<h4 id="Summary-3"><a href="#Summary-3" class="headerlink" title="Summary"></a>Summary</h4>성능 테스팅은 프로젝트의 각각 다른 단계에서 일어나는 일반적인 핵심 활동의 모음을 포함한다. 각 확동은 특별한 성격과 해결되어야할 과제를 가진다. 그 활동은 저자와 리뷰어가 경험한 고의적이고 성공적인 성능 테스트 프로젝트에서 적어도 활동 중 하나를 생략하는 적극적인 위험 기반 결정의 일부분이었던 것으로 밝혀졌습니다. 각 활동을 자세히 이해하고 나서 프로젝트의 환경에 가장 잘 맞는 방법으로 그 성능 테스팅을 적용하는 것이 중요합니다. </li>
+</ul>
+<h3 id="Chapter-5-Coordinating-Performance-Testing-with-an-Iteration-Based-Process"><a href="#Chapter-5-Coordinating-Performance-Testing-with-an-Iteration-Based-Process" class="headerlink" title="Chapter 5 - Coordinating Performance Testing with an Iteration-Based Process"></a>Chapter 5 - Coordinating Performance Testing with an Iteration-Based Process</h3><ul>
+<li>Learn an approach to coordinating performance testing within an iteration-based process.</li>
+<li>Learn how to detect and solve major issues early in the project.</li>
+<li>Learn how to maximize flexibility without sacrificing control.</li>
+<li>Learn how to provide managers and stakeholders with progress and value indicators.</li>
+<li>Learn how to provide a structure for capturing information that will not noticeably impact the release schedule.</li>
+<li>Learn how to apply an approach that is designed to embrace change, not simply to tolerate it.<h4 id="Summary-4"><a href="#Summary-4" class="headerlink" title="Summary"></a>Summary</h4>반복 기반 절차 성능 테스팅은 애자일, XP, RUP와 같은 개발 주기에서 일반적인 방법입니다.<br>효과적이기 위해서, 성능 테스팅은 반복 계획과 절차의 환경에서 정확히 관리되어야 합니다. </li>
+</ul>
+<h3 id="Chapter-6-Managing-an-Agile-Performance-Test-Cycle"><a href="#Chapter-6-Managing-an-Agile-Performance-Test-Cycle" class="headerlink" title="Chapter 6 - Managing an Agile Performance Test Cycle"></a>Chapter 6 - Managing an Agile Performance Test Cycle</h3><ul>
+<li>Learn an approach to agile performance test management.</li>
+<li>Learn how to maximize flexibility without sacrificing control.</li>
+<li>Learn how to provide managers and stakeholders with progress and value indicators.</li>
+<li>Learn how to provide a structure for capturing information that will not noticeably impact the release schedule.</li>
+<li>Learn how to apply an approach designed to embrace change, not simply tolerate it.<h4 id="Summary-5"><a href="#Summary-5" class="headerlink" title="Summary"></a>Summary</h4>애자일 프로젝트 환경에서의 성능 테스팅은 매우 유연한 방법으로 테스팅을 관리할 수 있게 해줍니다. 특히 이 접근법은 사업 비전을 재검토 하거나 그 시점에 성능 테스트를 추가하는 값에 기반한 과제 순위 재정렬을 할 수 있게 해줍니다. </li>
+</ul>
+<h3 id="Chapter-7-Managing-the-Performance-Test-Cycle-in-a-Regulated-CMMI-Environment"><a href="#Chapter-7-Managing-the-Performance-Test-Cycle-in-a-Regulated-CMMI-Environment" class="headerlink" title="Chapter 7 - Managing the Performance Test Cycle in a Regulated(CMMI) Environment"></a>Chapter 7 - Managing the Performance Test Cycle in a Regulated(CMMI) Environment</h3><ul>
+<li>Become familiar with a performance test management approach appropriate for CMMI, auditable, and highly regulated projects.</li>
+<li>Learn how to maximize effectiveness without sacrificing control or compliance.</li>
+<li>Learn how to provide managers and stakeholders with progress and value indicators.</li>
+<li>Learn how to provide a structure for capturing information within the schedule, not in addition to it.</li>
+<li>Learn how to apply an approach designed to adapt to change without generating excessive rework, management, or audit concerns.<h4 id="Summary-6"><a href="#Summary-6" class="headerlink" title="Summary"></a>Summary</h4>CMMI에서, 회계 감사할 수 있는, 잘 규제된 성능 테스트는 잘 계획되고, 감시되는 환경을 수반합니다. 이 종류의 성능 테스트는 지난 활동 동안 발견된 어떤 결함을 해결하기 전까지 다음 활동을 결정하지 못하는 경우가 빈번하기 때문에 특히 도전적입니다. 이런 환경에서 성능 테스트를 잘 관리하는 핵심은 업무 항목을 프로젝트 계획과 연결하고, 세부사항을 계획에 추가하는 것입니다. </li>
+</ul>
+<h2 id="Part-3-Ientify-the-Test-Environment"><a href="#Part-3-Ientify-the-Test-Environment" class="headerlink" title="Part 3: Ientify the Test Environment"></a>Part 3: Ientify the Test Environment</h2><h3 id="Chapter-8-Evaluating-Systems-to-Increase-Performance-Testing-Effectiveness"><a href="#Chapter-8-Evaluating-Systems-to-Increase-Performance-Testing-Effectiveness" class="headerlink" title="Chapter 8 - Evaluating Systems to Increase Performance-Testing Effectiveness"></a>Chapter 8 - Evaluating Systems to Increase Performance-Testing Effectiveness</h3><ul>
+<li>Learn techniques to effectively and efficiently capture the system’s functions.</li>
+<li>Learn techniques to effectively and efficiently capture expected user activities.</li>
+<li>Learn techniques to effectively and efficiently capture the system’s logical and physical architecture.<h4 id="Summary-7"><a href="#Summary-7" class="headerlink" title="Summary"></a>Summary</h4>시스템 평가는 성능 테스트 노력 전반에 걸쳐 진행중인 프로세스이지만 성능 테스트 프로젝트 초기에 수행 될 때 가장 많은 가치를 제공합니다.</li>
+</ul>
+<p>시스템 평가 프로세스 중에 프로젝트 전체, 시스템 및 비즈니스 프로세스의 기능, 예상되는 사용자 활동, 시스템 아키텍처 및 성능 테스트를 수행하는 데 도움이되는 기타 세부 사항에 대한 정보를 수집합니다. 프로젝트의 특정 요구를 달성하십시오.</p>
+<p>이 정보는 성능 목표 및 요구 사항 정의, 작업 부하 특성화, 성능 테스트 전략 및 계획 작성, 프로젝트 및 시스템 위험 평가에 도움이됩니다.</p>
+<h2 id="Part-4-Identify-Performance-Acceptance-Criteria"><a href="#Part-4-Identify-Performance-Acceptance-Criteria" class="headerlink" title="Part 4: Identify Performance Acceptance Criteria"></a>Part 4: Identify Performance Acceptance Criteria</h2><h3 id="Chapter-9-Determining-Performance-Testing-Objectives"><a href="#Chapter-9-Determining-Performance-Testing-Objectives" class="headerlink" title="Chapter 9 - Determining Performance Testing Objectives"></a>Chapter 9 - Determining Performance Testing Objectives</h3><ul>
+<li>Learn how to identify and capture performance-testing objectives.</li>
+<li>Learn how to capture or estimate resource usage targets and thresholds.</li>
+<li>Learn how to capture or estimate resource budgets or allocations.</li>
+<li>Learn how to review and update various types of performance-testing objectives and communicate the updates to the team throughout the project as more information becomes available.<h4 id="Summary-8"><a href="#Summary-8" class="headerlink" title="Summary"></a>Summary</h4>성능 테스트 목표를 결정하고 기록하는 것은 프로젝트가 이정표를 진행함에 따라 팀과 의사 소통하여 이러한 목표를 수립하고 업데이트하는 것입니다.<br>각 팀원들이 시간을 지키는 것이 항상 쉽지는 않더라도, 그들은 중요한 성능테스트 목표를 수립하는데 도움을 주는 정보를 공유하는데 수용적입니다.<br>이러한 목표에는 비즈니스 관련 메트릭 제공,로드시 자원 활용 데이터 확보, 응용 프로그램 서버 조정에 도움이되는 특정로드 생성 또는 각 웹 페이지에서 요청한 오브젝트 수 보고서 제공이 포함될 수 있습니다.<br>프로젝트 수명주기 초기에 성능 테스트 목표를 수집하는 것이 가장 중요하지만, 정기적으로 이러한 목표를 다시 검토하고 팀 구성원에게 새로운 목표를 추가하고 싶은지 물어 보는 것도 중요합니다.</li>
+</ul>
+<h3 id="Chapter-10-Quantifying-End-User-Response-Time-Goals"><a href="#Chapter-10-Quantifying-End-User-Response-Time-Goals" class="headerlink" title="Chapter 10 - Quantifying End-User Response Time Goals"></a>Chapter 10 - Quantifying End-User Response Time Goals</h3><ul>
+<li>Learn how to identify the difference between performance requirements and performance goals.</li>
+<li>Learn how to apply several methods for capturing subjective performance requirements and goals.<h4 id="Summary-9"><a href="#Summary-9" class="headerlink" title="Summary"></a>Summary</h4>응답 시간 목표를 정량화하는 것은 사용자의 응용 프로그램 성능에 대한 인식을 표현하는 것과 밀접하게 관련됩니다.<br>대부분의 경우 응용 프로그램 사용자는 화면에 데이터를 표시하는 데 걸리는 시간, 응용 프로그램 처리량, 데이터베이스에서 지원해야하는 초당 트랜잭션 수를 명확하게 나타낼 수 없습니다.<br>그러나 사용자는 이전 경험, 작업의 중요성 및 기대치 설정 방법과 같은 여러 요소의 결과 인 노출 수를 기준으로 응용 프로그램의 성능 동작을 확인합니다.</li>
+</ul>
+<h3 id="Chapter-11-Consolidating-Various-Types-of-Performance-Acceptance-Criteria"><a href="#Chapter-11-Consolidating-Various-Types-of-Performance-Acceptance-Criteria" class="headerlink" title="Chapter 11 - Consolidating Various Types of Performance Acceptance Criteria"></a>Chapter 11 - Consolidating Various Types of Performance Acceptance Criteria</h3><ul>
+<li>Learn how to identify and capture performance requirements and testing objectives based on the perspectives of system users, business owners of the system, and the project team, in addition to compliance expectations and technological considerations.</li>
+<li>Learn how to consolidate this information into a single set of verifiable, complementary performance acceptance criteria.</li>
+<li>Learn how to review and update the performance acceptance criteria throughout the project as more information becomes available.<h4 id="Summary-10"><a href="#Summary-10" class="headerlink" title="Summary"></a>Summary</h4>성능 요구 사항 및 테스트 목적은 일반적으로 시스템 사용자, 비즈니스 소유자 및 프로젝트 팀의 관점뿐 아니라 준수 기대 및 기술적 고려 사항에서 도출됩니다.<br>시스템 수용 기준의 완성도에 대한 확신을 갖기 위해서는 이러한 모든 다른 관점에서 수집 된 정보를 기반으로해야하며, 이는 검증 가능한 보완 성능 요구 사항 및 테스트 목표의 단일 세트가 되어야합니다.<br>가장 중요한 성능 특성은 응용 프로그램 사용자가 성능 저하로 좌절하지 않아야한다는 것입니다.</li>
+</ul>
+<h2 id="Part-5-Plan-and-Design-Tests"><a href="#Part-5-Plan-and-Design-Tests" class="headerlink" title="Part 5: Plan and Design Tests"></a>Part 5: Plan and Design Tests</h2><h3 id="Chapter-12-Modeling-Application-Usage"><a href="#Chapter-12-Modeling-Application-Usage" class="headerlink" title="Chapter 12 - Modeling Application Usage"></a>Chapter 12 - Modeling Application Usage</h3><ul>
+<li>Learn the difference between concurrent users and user sessions and why this is important when defining input for Web load tests.</li>
+<li>Learn how to identify individual usage scenarios.</li>
+<li>Learn about the metrics that will help in developing realistic workload characterizations.</li>
+<li>Learn how to incorporate individual usage scenarios and their variances into user groups.</li>
+<li>Learn how to identify and model special considerations when blending groups of users into single models.</li>
+<li>Learn how to construct realistic workload models for Web applications based on expectations, documentation, observation, log files, and other data available prior to the release of the application to production.<h4 id="Summary-11"><a href="#Summary-11" class="headerlink" title="Summary"></a>Summary</h4>생산 성과를 이해, 예측 또는 조정하려는 목적으로 성능 테스트를 수행 할 때 테스트 조건은 생산 사용 또는 예상되는 미래 비즈니스 양과 비슷하거나 유사해야합니다.</li>
+</ul>
+<p>정확하고 예측 가능한 테스트 결과를 얻으려면 사용자 흐름은 페이지 흐름, 방문 빈도, 사용자가 페이지 사이에서 멈추는 기간 및 사용자가 웹 사이트와 상호 작용하는 방법과 관련된 다른 요소를 기반으로 고객 세션을 모델링해야합니다.</p>
+<h3 id="Chapter-13-Determining-Individual-User-Data-and-Variances"><a href="#Chapter-13-Determining-Individual-User-Data-and-Variances" class="headerlink" title="Chapter 13 - Determining Individual User Data and Variances"></a>Chapter 13 - Determining Individual User Data and Variances</h3><ul>
+<li>Learn how to determine realistic durations and distribution patters for user delay times.</li>
+<li>Learn how to incorporate realistic user delays into test designs and test scripts.</li>
+<li>Learn about key variables to consider when defining workload characterization.</li>
+<li>Learn about the elements of user behavior that will aid with modeling the user experience when creating load tests.<h4 id="Summary-12"><a href="#Summary-12" class="headerlink" title="Summary"></a>Summary</h4>작업량 특성화가 정확한 결과를 생성하려면 테스트 및 테스트 스크립트에 대한 실제 사용자 지연을 설계하는 프로세스가 중요합니다.<br>프로덕션 환경에서 응용 프로그램의 성능 특성 또는 향후 예상되는 비즈니스 볼륨을 이해하는 데 직접 적용 할 수있는 성능 테스트를 위해 테스트 된 작업 부하는 사용자 지연 패턴을 복제하여 현실을 나타낼 수 있어야합니다.<br>현실을 합리적으로 정확하게 표현하려면 대표적인 사용자 교차 섹션과 마찬가지로 개별 사용자 데이터 및 사용자 포기를 고려하여 가변성 및 임의성을 가진 사용자 지연을 모델링해야합니다.</li>
+</ul>
+<h2 id="Part-6-Execute-Tests"><a href="#Part-6-Execute-Tests" class="headerlink" title="Part 6: Execute Tests"></a>Part 6: Execute Tests</h2><h3 id="Chapter-14-Test-Execution"><a href="#Chapter-14-Test-Execution" class="headerlink" title="Chapter 14 - Test Execution"></a>Chapter 14 - Test Execution</h3><ul>
+<li>Understand common principles and considerations of performance test execution.</li>
+<li>Understand the common activities of performance test execution.<h4 id="Summary-13"><a href="#Summary-13" class="headerlink" title="Summary"></a>Summary</h4>성능 테스트 실행에는 테스트 환경, 스크립트의 유효성 검사, 테스트 실행 및 테스트 결과 생성과 같은 활동이 포함됩니다. 또한 성능 특성의 기준선 및  벤치 마크를 생성하는 것도 포함 할 수 있습니다.<br>환경이 실제로 프로덕션 환경을 나타내도록 테스트 환경의 유효성을 확인하는 것이 중요합니다.<br>올바른 메트릭이 수집되고 있는지, 그리고 테스트 스크립트 디자인이 작업 부하 특성을 정확하게 시뮬레이션하고 있는지 확인하기 위해 테스트 스크립트의 유효성을 검사합니다.</li>
+</ul>
+<h2 id="Part-7-Analyze-Results-and-Report"><a href="#Part-7-Analyze-Results-and-Report" class="headerlink" title="Part 7: Analyze Results and Report"></a>Part 7: Analyze Results and Report</h2><h3 id="Chapter-15-Key-Mathematic-Principles-for-Performance-Testers"><a href="#Chapter-15-Key-Mathematic-Principles-for-Performance-Testers" class="headerlink" title="Chapter 15 - Key Mathematic Principles for Performance Testers"></a>Chapter 15 - Key Mathematic Principles for Performance Testers</h3><ul>
+<li>Learn the uses, meanings of, and concepts underlying common mathematical and statistical principles as they apply to performance test analysis and reporting.<h4 id="Summary-14"><a href="#Summary-14" class="headerlink" title="Summary"></a>Summary</h4>소프트웨어 개발 팀, 개발자, 테스터, 관리자 및 관리자 모두가 수학을 적용하고 통계 데이터를 해석하여 업무를 효율적으로 수행하는 방법을 알아야합니다. 성과 분석 및보고는 특히 수학 집중적입니다. 성능 테스트의 수학적 및 통계적 개념을 이해하여 올바른 성능 테스트 분석 및 보고를 수행 할 수 있습니다.</li>
+</ul>
+<h3 id="Chapter-16-Performance-Test-Reporting-Fundamentals"><a href="#Chapter-16-Performance-Test-Reporting-Fundamentals" class="headerlink" title="Chapter 16 - Performance Test Reporting Fundamentals"></a>Chapter 16 - Performance Test Reporting Fundamentals</h3><ul>
+<li>Learn how to apply principles of effective reporting to performance test data.</li>
+<li>Learn when to share technical results versus produce stakeholder reports.</li>
+<li>Learn what questions various team members expect performance reports to answer.<h4 id="Summary-15"><a href="#Summary-15" class="headerlink" title="Summary"></a>Summary</h4>성능 테스트 보고는 핵심 기술 및 비즈니스 결정을 지원하는 결과 데이터를 표시하는 프로세스입니다.<br>효과적인 보고서를 작성하려면 데이터를 가장 잘 표현하는 방법을 결정하기 전에 데이터의 대상을 고려해야합니다.<br>가장 효과적인 성능 테스트 결과는 결과를 얻은 방법에 대한 분석, 비교 및 ​​세부 정보를 제시하며 중요한 비즈니스 의사 결정에 영향을 미칩니다.</li>
+</ul>
+<h2 id="Part-8-Performance-Testing-Techniques"><a href="#Part-8-Performance-Testing-Techniques" class="headerlink" title="Part 8: Performance-Testing Techniques"></a>Part 8: Performance-Testing Techniques</h2><h3 id="Chapter-17-Load-Testing-Web-Applications"><a href="#Chapter-17-Load-Testing-Web-Applications" class="headerlink" title="Chapter 17 - Load-Testing Web Applications"></a>Chapter 17 - Load-Testing Web Applications</h3><ul>
+<li>Understand the key concepts of load testing.</li>
+<li>Learn how to load-test a Web application.<h4 id="Summary-16"><a href="#Summary-16" class="headerlink" title="Summary"></a>Summary</h4>부하 테스트는 응용 프로그램의 최대 작동 용량과 성능을 저하시킬 수있는 병목 현상을 식별하는 데 도움이됩니다.<br>웹 응용 프로그램에서 부하 테스트를 수행하는 기본 방법은 성능에 중요한 핵심 시나리오를 식별하는 것입니다.<br>핵심 시나리오들 사이에서 모든 로드를 분배하기 위한 작업량 프로파일을 식별합니다.<br>실적 목표에 맞는지 확인하기 위해 수집하려는 측정 항목을 식별하십시오.<br>로드 테스트를 시뮬 레이팅하는 데 사용될 테스트 케이스를 작성하십시오.<br>도구를 사용하여 테스트 사례에 따라 로드를 시뮬레이트하고 메트릭을 캡처합니다.<br>마지막으로 테스트 중에 수집된 메트릭 데이터를 분석합니다.</li>
+</ul>
+<h3 id="Chapter-18-Stress-Testing-Web-Applications"><a href="#Chapter-18-Stress-Testing-Web-Applications" class="headerlink" title="Chapter 18 - Stress-Testing Web Applications"></a>Chapter 18 - Stress-Testing Web Applications</h3><ul>
+<li>Understand the key concepts of stress testing.</li>
+<li>Learn how to stress-test a Web application.<h4 id="Summary-17"><a href="#Summary-17" class="headerlink" title="Summary"></a>Summary</h4>스트레스 테스트를 통해 극한 상황에서만 발생할 수있는 잠재적 인 애플리케이션 문제를 식별 할 수 있습니다. 이러한 조건은 메모리, 프로세서 사이클, 네트워크 대역폭 및 디스크 용량과 같은 시스템 리소스가 고갈 된 후부터 예측할 수없는 사용 패턴으로 인해 과도한 로드에 이르기까지 다양합니다.<br>스트레스 테스트는 응용 프로그램의 견고성, 안정성 및 안정성에 중점을 둔 목표 및 핵심 사용자 시나리오를 중심으로합니다. 스트레스 테스트의 효과는 정확한 방법론을 적용하고 테스트 결과를 효과적으로 분석 할 수 있는지에 달려 있습니다. 올바른 방법론을 적용하는 것은 사용자 부하 및 데이터 양 모두에 대한 작업량 조건을 재현하고 주요 시나리오를 재현하며 핵심 성과 지표를 해석하는 역량에 따라 다릅니다.</li>
+</ul>
+<h2 id="과제"><a href="#과제" class="headerlink" title="과제"></a>과제</h2><ul>
+<li>성능 테스트의 정의 (1 page, chapter 1)</li>
+<li>성능 테스트의 종류, 해당 테스트가 어떤 상황에서 필요한지 직접 생각하여 정리 (2 pages , chapter 2)</li>
+<li>성능테스트시에 어떤 위험사항이 있는지 (1 page, chapter 3)</li>
+<li>성능테스트시 어떤 작업들이 필요한지 (2 pages, part 2 (chapter 4,5,6,7))</li>
+<li>테스트 환경 (1 page, part 3 (chapter 8))</li>
+<li>성능테스트의 목적 (2 pages, part 4 (chapter 9,10,11))</li>
+<li>테스트의 계획과 디자인 (2 pages, part 5 (chapter 12,13))</li>
+<li>테스트 실행 (2 pages, part 6 (chapter 14))</li>
+<li>테스트 결과 분석 (2 pages, part 7 (chapter 15,16))</li>
+<li>Load 테스트와 Stress 테스트의 차이 (1 pages, part 8 (chapter 17,18))</li>
+</ul>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-03-02</span><i class="fa fa-comment-o"></i><a href="/2018/03/02/180302-performancetesting/#comments">Comments</a><i class="fa fa-tag"></i><a class="tag" href="/tags/book/" title="book">book </a><a class="tag" href="/tags/testing/" title="testing">testing </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,https://junhaesung.github.io/2018/03/02/180302-performancetesting/,과제요정,웹 어플리케이션을 위한 성능 테스트 가이드 - patterns and practices,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2018/02/18/180218-summary-9788989975922/" title="레거시 코드 활용 전략 요약 (2)">next post</a></li></ul></div><a id="comments"></a><div id="disqus_thread"></div><script>var disqus_shortname = 'junhaesung';
+var disqus_identifier = '2018/03/02/180302-performancetesting/';
+var disqus_title = '웹 어플리케이션을 위한 성능 테스트 가이드 - patterns and practices';
+var disqus_url = 'https://junhaesung.github.io/2018/03/02/180302-performancetesting/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
